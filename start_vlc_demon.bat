@@ -4,6 +4,8 @@ set vlc_execution_path="C:\Program Files\VideoLAN\VLC\vlc.exe"
 set output_save_folder="E:\VLC_saved_videos\prod"
 set execution_time_in_sec=1800
 set device_name="USB Video Device"
+set server_port=55555
+set stream_name="anyStreamName"
 
 :loop
 
@@ -15,8 +17,8 @@ set device_name="USB Video Device"
 	rem start "VLC Recorder" %vlc_execution_path% dshow:// :dshow-vdev="USB Video Device" --sout file/avi:%output_file% --run-time=%execution_time_in_sec%
 
 	rem --sout-keep option keep open stream connection and conflicts with saving(close) file to filesystem, when we kill task by PID !!!  
-	rem start "VLC Recorder" %vlc_execution_path% dshow:// :dshow-vdev=%device_name% :dshow-adev=none --sout "#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=none}:duplicate{dst=file{dst=%output_file%,no-overwrite},dst=http{mux=ffmpeg{mux=flv},dst=:55555/anyStreamName}}" --no-sout-all --sout-keep --run-time=%execution_time_in_sec%
-	start "VLC Recorder" %vlc_execution_path% dshow:// :dshow-vdev=%device_name% :dshow-adev=none --sout "#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=none}:duplicate{dst=file{dst=%output_file%,no-overwrite},dst=http{mux=ffmpeg{mux=flv},dst=:55555/anyStreamName}}" --no-sout-all --run-time=%execution_time_in_sec%
+	rem start "VLC Recorder" %vlc_execution_path% dshow:// :dshow-vdev=%device_name% :dshow-adev=none --sout "#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=none}:duplicate{dst=file{dst=%output_file%,no-overwrite},dst=http{mux=ffmpeg{mux=flv},dst=:%server_port%/%anyStreamName%}}" --no-sout-all --sout-keep --run-time=%execution_time_in_sec%
+	start "VLC Recorder" %vlc_execution_path% dshow:// :dshow-vdev=%device_name% :dshow-adev=none --sout "#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100,scodec=none}:duplicate{dst=file{dst=%output_file%,no-overwrite},dst=http{mux=ffmpeg{mux=flv},dst=:%server_port%/%anyStreamName%}}" --no-sout-all --run-time=%execution_time_in_sec%
 	echo Wait 2 seconds for start proccess...
 	timeout /t 2 >nul
 
