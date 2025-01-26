@@ -1,4 +1,5 @@
-﻿@echo off
+﻿rem 1
+@echo off
 
 set vlc_execution_path="C:\Program Files\VideoLAN\VLC\vlc.exe"
 set output_save_folder="E:\VLC_saved_videos\prod"
@@ -6,6 +7,15 @@ set execution_time_in_sec=1800
 set device_name="USB Video Device"
 set server_port=55555
 set stream_name="stream"
+
+echo ---------------------------------------
+echo vlc_execution_path=%vlc_execution_path%
+echo output_save_folder=%output_save_folder%
+echo execution_time_in_sec=%execution_time_in_sec%
+echo device_name=%device_name%
+echo server_port=%server_port%
+echo stream_name=%stream_name%
+echo ---------------------------------------
 
 :loop
 
@@ -37,5 +47,5 @@ set stream_name="stream"
 
 	echo Wait 1 seconds for close for closing task...
 	timeout /t 1 >nul
-
+    echo ---------------------------------------
 goto loop
