@@ -20,8 +20,14 @@ echo ---------------------------------------
 :loop
 
 	for /f "tokens=2 delims==." %%a in ('wmic os get localdatetime /value') do set datetime=%%a
-	set filename=%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2%_%datetime:~8,2%-%datetime:~10,2%-%datetime:~12,2%.avi
-	set output_file=%output_save_folder%\%filename%
+	set day_folder=%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2%
+	set filename=%day_folder%_%datetime:~8,2%-%datetime:~10,2%-%datetime:~12,2%.avi
+	set full_output_folder=%output_save_folder%\%day_folder%
+	if not exist "%full_output_folder%" (
+		mkdir "%full_output_folder%"
+	)
+
+	set output_file=%full_output_folder%\%filename%
 
 	rem only for saving to Hard Disk 
 	rem start "VLC Recorder" %vlc_execution_path% dshow:// :dshow-vdev="USB Video Device" --sout file/avi:%output_file% --run-time=%execution_time_in_sec%
